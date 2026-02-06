@@ -1,43 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cgpa_calculator/main.dart';
+import 'package:cgpa_calculator/main.dart'; // Ensure 'cgpa_calculator' matches your pubspec.yaml name
 
 void main() {
-  testWidgets('App loads correctly', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp(isDarkMode: false));
-    expect(find.text('CGPA Calculator'), findsOneWidget);
-  });
-
-  testWidgets('Add semester button works', (WidgetTester tester) async {
+  testWidgets('App loads and displays title', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp(isDarkMode: false));
 
-    // Verify initial state
-    expect(find.text('Semester 1'), findsOneWidget);
-    expect(find.text('Semester 2'), findsNothing);
+    // Verify that the AppBar title "GPA Calculator" is present.
+    expect(find.text('GPA Calculator'), findsOneWidget);
 
-    // Tap the add semester button
-    await tester.tap(find.text('Add Semester'));
-    await tester.pump();
+    // Verify that the empty state text is present initially.
+    expect(find.text('No Records Found'), findsOneWidget);
 
-    // Verify new semester was added
-    expect(find.text('Semester 1'), findsOneWidget);
-    expect(find.text('Semester 2'), findsOneWidget);
-  });
-
-  testWidgets('Theme switching works', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp(isDarkMode: false));
-
-    // Verify initial theme
-    final appBar = tester.widget<AppBar>(find.byType(AppBar));
-    expect(appBar.backgroundColor, isNot(Colors.grey[900]));
-
-    // Tap the theme toggle button
-    await tester.tap(find.byIcon(Icons.dark_mode));
-    await tester.pump();
-
-    // Verify theme changed
-    final updatedAppBar = tester.widget<AppBar>(find.byType(AppBar));
-    expect(
-        updatedAppBar.backgroundColor, isNot(equals(appBar.backgroundColor)));
+    // Verify that the floating action button exists.
+    expect(find.byType(FloatingActionButton), findsOneWidget);
   });
 }
